@@ -4,7 +4,7 @@
     <h2>Lectures</h2>
     <a href="{% url 'lecture:create'  %}">create</a>
     
-    <form action="{% url 'lecture:index' %}" method="GET">
+    <form action="{% url 'lecture:index' %}" method="GET">{% csrf_token %}
         <input type="text" name="name"></>
         <input type="submit" value="Search">
     </form>
@@ -15,6 +15,10 @@
             <li><a href="{% url 'lecture:detail' item.lecture_id %}">{{ item.lecture_id }},{{ item.lecture }},{{ item.term }}</a>
                 <a href="{% url 'lecture:update' item.lecture_id %}">update</a>
                 <a href="{% url 'lecture:delete' item.lecture_id %}">delete</a>
+                <form action="{% url 'history:create' %}" method="GET">{% csrf_token %}
+                    <input type="hidden" name="id" value = "{{ item.lecture_id }}">
+                    <input type="submit" value="Create a history" >
+                </form>
             </li>
             
         {% endfor %}

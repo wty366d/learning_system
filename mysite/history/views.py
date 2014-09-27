@@ -8,6 +8,7 @@ from mysite.views import LoginRequiredMixin
 from history.forms import HistoryForm
 from history.models import History
 
+from lecture.models import Lecture
 
 # Create your views here.
 
@@ -42,19 +43,18 @@ class CreateFormView(LoginRequiredMixin, generic.edit.CreateView):
     model = History
     form_class = HistoryForm
     
-    #fields =   
     template_name = 'history/create.html'
     
     def form_valid(self, form):
+        posted_id = int(self.request.GET.get('id'))
+        if posted_id:
+			posted_lecture = Lecture.objects.get(lecture_id = posted_id)
+
         user = self.request.user
         form.instance.student = user
+        form.instance.lecture = posted_lecture
         return super(CreateFormView, self).form_valid(form)
     
-    #def get_context_data(self, *args, **kwargs):
-        #context_data = super(CreateFormView, self).get_context_data(
-            #*args, **kwargs)
-        #context_data.update({'test': '321312'})
-        #return context_data
 
 
 class UpdateFormView(LoginRequiredMixin, generic.edit.UpdateView):
