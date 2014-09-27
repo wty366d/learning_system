@@ -3,19 +3,37 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
 
+
 from mysite.views import LoginRequiredMixin
-from lecture.forms import LectureForm
+from lecture.forms import LectureForm #,LectureSearchForm
 from lecture.models import Lecture
 
 
 # Create your views here.
 
 class IndexView(LoginRequiredMixin, generic.ListView):
+    model = Lecture
+    #form_class = LectureSearchForm
     template_name = 'lecture/index.html'
     context_object_name = 'lecture_list'
 
     def get_queryset(self):
-        return Lecture.objects.all()
+        queryset = super(IndexView, self).get_queryset()
+        name = self.request.GET.get('name')
+        if name:
+            return queryset.filter(lecture__icontains=name)
+        return queryset
+
+
+    #def get_queryset(self):
+        ##form = form_class(self.request.GET)
+        #form = self.get_form(self.form_class)
+        #if form.is_valid():
+            #return Lecture.objects.filter(name__icontains=form.cleaned_data['name'])
+        #return Lecture.objects.all()
+
+    #def get_queryset(self):
+        #return Lecture.objects.all()
 
 
 
