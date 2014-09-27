@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from mysite.views import LoginRequiredMixin
 from lecture.forms import LectureForm #,LectureSearchForm
@@ -16,6 +17,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
     #form_class = LectureSearchForm
     template_name = 'lecture/index.html'
     context_object_name = 'lecture_list'
+    paginate_by = 2
 
     def get_queryset(self):
         queryset = super(IndexView, self).get_queryset()
@@ -26,13 +28,10 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 
 
     #def get_queryset(self):
-        ##form = form_class(self.request.GET)
+        #form = form_class(self.request.GET)
         #form = self.get_form(self.form_class)
         #if form.is_valid():
             #return Lecture.objects.filter(name__icontains=form.cleaned_data['name'])
-        #return Lecture.objects.all()
-
-    #def get_queryset(self):
         #return Lecture.objects.all()
 
 
