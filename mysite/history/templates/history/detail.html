@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>History</h2>
+    <ul>
+	{% comment %}
+		{% for name in history._meta.__dict__.items() %}
+            <li>{{ getattr(history, name, None) }}</li>
+        {% endfor %}
+	{% endcomment %}
+
+		<li>{{ history.student }}</li>
+		<li>{{ history.lecture}}</li>
+		<li>{{ history.year}}</li>
+		<li>{{ history.grade }}</li>
+    </ul>
+    <p><a href="{% url 'history:index' %}">BACK</a></p>
+{% endblock %}

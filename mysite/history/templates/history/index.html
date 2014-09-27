@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>History</h2>
+    <a href="{% url 'history:create'  %}">create</a>
+    <ul>
+        {% for item in history_list %}
+            <li><p><a href="{% url 'history:detail' item.pk %}">{{ item.student }},{{ item.lecture }},{{ item.year }},{{ item.grade }}</a></p>
+                <a href="{% url 'lecture:update' item.pk %}">update</a>
+                <a href="{% url 'history:delete' item.pk %}">delete</a>
+            </li>
+            
+        {% endfor %}
+    </ul>
+{% endblock %}

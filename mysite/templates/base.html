@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lecture Hsitory</title>
+    </head>
+
+    <body>
+	{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }} with ID : {{user.userprofile.todai_id}}. Thanks for logging in.</p>
+
+	<p><a href="{% url 'account:logout'  %}"> logout </a> </p>
+	<p><a href="{% url 'account:password_change'  %}"> change password </a></p>
+	<p><a href="{% url 'lecture:index'  %}"> lecture_index </a></p>
+	<p><a href="{% url 'history:index'  %}"> history_index </a></p>    
+    
+    {% else %}
+    <p>Welcome, new user. Please log in or register.</p>
+    <p><a href="{% url 'account:register'  %}"> register </a></p>
+    <p><a href="{% url 'account:login'  %}"> login </a></p>
+    
+    {% endif %}
+
+    {% block content %}{% endblock %}
+    
+    </body>
+</html>

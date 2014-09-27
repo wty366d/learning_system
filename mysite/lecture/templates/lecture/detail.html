@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Lectures</h2>
+    <ul>
+        <li>{{ lecture.lecture_id }},{{ lecture.lecture }},{{ lecture.term }}</li>
+    </ul>
+    <p><a href="{% url 'lecture:index' %}">BACK</a></p>
+{% endblock %}

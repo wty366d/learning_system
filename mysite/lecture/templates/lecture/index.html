@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Lectures</h2>
+    <a href="{% url 'lecture:create'  %}">create</a>
+    <ul>
+        {% for item in lecture_list %}
+            <li><a href="{% url 'lecture:detail' item.lecture_id %}">{{ item.lecture_id }},{{ item.lecture }},{{ item.term }}</a>
+                <a href="{% url 'lecture:update' item.lecture_id %}">update</a>
+                <a href="{% url 'lecture:delete' item.lecture_id %}">delete</a>
+            </li>
+            
+        {% endfor %}
+    </ul>
+{% endblock %}
