@@ -94,8 +94,14 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+#STATIC_URL = '/static/'
+CURRENT_PATH = os.path.abspath(os.path.dirname(__file__).decode('utf-8'))
+
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = ('/home/gakushu/Documents/django/test/mysite/static',
+                    #os.path.join(CURRENT_PATH, 'static'),
+)
 
 LOGIN_URL = '/account/login/'
 

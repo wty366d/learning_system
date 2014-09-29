@@ -27,6 +27,9 @@ class History(models.Model):
     lecture = models.ForeignKey(Lecture)
     student = models.ForeignKey(User)
 
+    class Meta:
+        ordering = ["-year"]
+
     def get_absolute_url(self):
         return reverse('history:detail', kwargs={'pk': self.pk})
         

@@ -4,9 +4,18 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 from django.contrib.auth import logout
 
+from django.views import generic
+
+from mysite.views import LoginRequiredMixin
+
 from account.forms import UserForm, UserProfileForm
+from account.models import UserProfile
+
+
 # Create your views here.
 
 
@@ -118,3 +127,36 @@ def user_logout(request):
 
     # Take the user back to the homepage.
     return HttpResponseRedirect('/index/')
+
+
+
+class ProfileObjectMixin(generic.detail.SingleObjectMixin):
+    """
+    Provides views with the current user's profile.
+    """
+    model = UserProfile
+
+    def get_object(self):
+        """Return's the current users profile."""
+        try:
+            return self.request.user.get_profile()
+        except Profile.DoesNotExist:
+            raise NotImplemented(
+                "What if the user doesn't have an associated profile?")
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        """Ensures that only authenticated users can access the view."""
+        klass = ProfileObjectMixin
+        return super(klass, self).dispatch(request, *args, **kwargs)
+
+
+class ProfileUpdateView(ProfileObjectMixin, generic.UpdateView):
+    """
+    A view that displays a form for editing a user's profile.
+
+    Uses a form dynamically created for the `Profile` model and
+    the default model's update template.
+    """
+    context_object_name = 'userprofile'
+    template_name = 'account/detail.html'

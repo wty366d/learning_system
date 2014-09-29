@@ -6,7 +6,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'^detail/$', views.ProfileUpdateView.as_view(), name='detail'),
     #url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'account/templates/account/login.html'},name='login'),
     url(r'^register/$', views.register, name='register'),
     #url(r'^login/$', views.user_login, name='login'),

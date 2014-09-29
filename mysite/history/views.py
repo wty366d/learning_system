@@ -15,9 +15,10 @@ from lecture.models import Lecture
 class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'history/index.html'
     context_object_name = 'history_list'
+    paginate_by = 4
 
     def get_queryset(self):
-        return History.objects.filter(student=self.request.user).order_by('year')
+        return History.objects.filter(student=self.request.user).order_by('-year')
 
 
 
