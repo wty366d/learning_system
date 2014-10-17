@@ -1,6 +1,9 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.contrib.auth import authenticate, login
+
+from django.contrib.auth import authenticate, login, get_user_model
+
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
 
 from django.contrib.auth.decorators import login_required
@@ -130,33 +133,60 @@ def user_logout(request):
 
 
 
-class ProfileObjectMixin(generic.detail.SingleObjectMixin):
-    """
-    Provides views with the current user's profile.
-    """
-    model = UserProfile
 
-    def get_object(self):
-        """Return's the current users profile."""
-        try:
-            return self.request.user.get_profile()
-        except Profile.DoesNotExist:
-            raise NotImplemented(
-                "What if the user doesn't have an associated profile?")
-
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        """Ensures that only authenticated users can access the view."""
-        klass = ProfileObjectMixin
-        return super(klass, self).dispatch(request, *args, **kwargs)
-
-
-class ProfileUpdateView(ProfileObjectMixin, generic.UpdateView):
-    """
-    A view that displays a form for editing a user's profile.
-
-    Uses a form dynamically created for the `Profile` model and
-    the default model's update template.
-    """
-    context_object_name = 'userprofile'
+class UserProfileDetailView(generic.DetailView):
+    model = get_user_model()
     template_name = 'account/detail.html'
+    slug_field = "username"
+    context_object_name = 'user'
+
+    def get_object(self, queryset=None):
+        user = super(UserProfileDetailView, self).get_object(queryset)
+        UserProfile.objects.get_or_create(user=user)
+        return user
+    
+    
+class UserProfileEditView(generic.edit.UpdateView):
+    model = UserProfile
+    form_class = UserProfileForm
+    template_name = 'account/update.html'
+
+    def get_object(self, queryset=None):
+        return UserProfile.objects.get_or_create(user=self.request.user)[0]
+
+    def get_success_url(self):
+        return reverse('account:detail', kwargs={'slug': self.request.user})
+
+
+
+#class ProfileObjectMixin(generic.detail.SingleObjectMixin):
+    #"""
+    #Provides views with the current user's profile.
+    #"""
+    #model = UserProfile
+
+    #def get_object(self):
+        #"""Return's the current users profile."""
+        #try:
+            #return self.request.user.get_profile()
+        #except UserProfile.DoesNotExist:
+            #raise NotImplemented(
+                #"What if the user doesn't have an associated profile?")
+
+    #@method_decorator(login_required)
+    #def dispatch(self, request, *args, **kwargs):
+        #"""Ensures that only authenticated users can access the view."""
+        #klass = ProfileObjectMixin
+        #return super(klass, self).dispatch(request, *args, **kwargs)
+
+
+#class ProfileUpdateView(ProfileObjectMixin, generic.edit.UpdateView):
+    #"""
+    #A view that displays a form for editing a user's profile.
+
+    #Uses a form dynamically created for the `Profile` model and
+    #the default model's update template.
+    #"""
+    ##form_class = UserProfileForm
+    #context_object_name = 'userprofile'
+    #template_name = 'account/detail.html'

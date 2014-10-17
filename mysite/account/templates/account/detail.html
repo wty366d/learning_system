@@ -3,8 +3,9 @@
 {% block content %}
     <h2>UserProfile</h2>
     <ul>
-		<li>{{userprofile.user}}</li>
-		<li>{{userprofile.todai_id}}</li>
-		<li>{{userprofile.grade}}</li>
+		<li>{{user.userprofile.user}}</li>
+		<li>{{user.userprofile.todai_id}}</li>
+		<li>{{user.userprofile.grade}}</li>
     </ul>
+     <a href="{% url 'account:update' %}">Update</a>
 {% endblock %}

@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^history/', include('history.urls',namespace='history')),
     url(r'^account/', include('account.urls',namespace='account')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^index/', TemplateView.as_view(template_name="base.html"),name='index'),
+    url(r'^', TemplateView.as_view(template_name="base.html"),name='index'),
     #url(r'^about/$',views.about()),
 )
 

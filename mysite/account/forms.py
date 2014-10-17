@@ -13,4 +13,5 @@ class UserForm(ModelForm):
 class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('todai_id', 'grade')
+        exclude = ('user',)
+        #fields = ('todai_id', 'grade')

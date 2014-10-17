@@ -22,7 +22,7 @@
         <ul>
             <li><a href="{% url 'account:logout'  %}"> logout </a></li>
             <li><a href="{% url 'account:password_change'  %}"> change password </a></li>
-            <li><a href="{% url 'account:detail'  %}"> UseProfile </a></li>
+            <li><a href="{% url 'account:detail' slug=user.username %}" > UseProfile </a></li>
             <li><a href="{% url 'lecture:index'  %}"> lecture_index </a></li>
             <li><a href="{% url 'history:index'  %}"> history_index </a></li>
         </ul>
