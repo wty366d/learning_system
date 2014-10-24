@@ -11,12 +11,17 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+    url(r'^~learning/learning/lecture/', include('lecture.urls',namespace='lecture')),
+    url(r'^~learning/learning/history/', include('history.urls',namespace='history')),
+    url(r'^~learning/learning/account/', include('account.urls',namespace='account')),
+    url(r'^~learning/learning/admin/', include(admin.site.urls)),
+    url(r'^~learning/learning/', TemplateView.as_view(template_name="base.html"),name='index'),
 
-    url(r'^lecture/', include('lecture.urls',namespace='lecture')),
-    url(r'^history/', include('history.urls',namespace='history')),
-    url(r'^account/', include('account.urls',namespace='account')),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^', TemplateView.as_view(template_name="base.html"),name='index'),
+    #url(r'^lecture/', include('lecture.urls',namespace='lecture')),
+    #url(r'^history/', include('history.urls',namespace='history')),
+    #url(r'^account/', include('account.urls',namespace='account')),
+    #url(r'^admin/', include(admin.site.urls)),
+    #url(r'^', TemplateView.as_view(template_name="base.html"),name='index'),
     #url(r'^about/$',views.about()),
 )
 
